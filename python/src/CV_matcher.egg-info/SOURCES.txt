@@ -1,0 +1,16 @@
+setup.cfg
+setup.py
+src/CV_matcher/__init__.py
+src/CV_matcher/constants.py
+src/CV_matcher/runserver.py
+src/CV_matcher.egg-info/PKG-INFO
+src/CV_matcher.egg-info/SOURCES.txt
+src/CV_matcher.egg-info/dependency_links.txt
+src/CV_matcher.egg-info/requires.txt
+src/CV_matcher.egg-info/top_level.txt
+src/CV_matcher/controller/__init__.py
+src/CV_matcher/controller/jobScraper/JobScraperController.py
+src/CV_matcher/controller/jobScraper/__init__.py
+src/CV_matcher/controller/uploadFile/UploadFileController.py
+src/CV_matcher/controller/uploadFile/__init__.py
+src/CV_matcher/model/__init__.py
