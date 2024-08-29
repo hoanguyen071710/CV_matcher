@@ -13,7 +13,20 @@ services:
       - cv_matcher_db:/var/lib/postgresql/data
     networks:
       - default
-
+  
+  job-scraper-daily:
+    build: .
+    depends_on:
+      - db
+    volumes:
+      - .:/app
+    ports:
+      - "5000:5000"
+    networks:
+      - default
 networks:
   default:
     driver: bridge
+
+volumes:
+  cv_matcher_db:

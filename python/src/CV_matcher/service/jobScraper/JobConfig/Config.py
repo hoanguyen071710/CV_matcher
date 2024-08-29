@@ -1,5 +1,9 @@
 from typing import Any, Optional, Union, List
 from pydantic import BaseModel
+from sqlalchemy.orm import DeclarativeBase
+
+class Base(DeclarativeBase):
+    pass
 
 
 class Config(BaseModel):

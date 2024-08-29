@@ -4,7 +4,7 @@ import traceback
 
 from ..constants import API
 from ...service.jobScraper.JobScraper import JobScraper
-from .config.Config import Config
+from ...service.jobScraper.JobConfig.Config import Config
 
 
 router = APIRouter(prefix=API)

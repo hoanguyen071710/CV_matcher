@@ -9,6 +9,7 @@ from ...connection.PostgresConnection import PostgresConnection
 from ...model.entities.Job import Job
 from ...model.dao.JobDAO import JobDAO
 from ...model.dao.Utils import Utils
+from .JobConfig.Config import Config
 
 class JobScraperSite(Enum):
     LINKEDIN = "linkedin"
@@ -41,3 +42,7 @@ class JobScraper:
 
         jobDAO = JobDAO(conn)
         jobDAO.insert_all(jobs)
+
+    def get_config_from_db() -> Config:
+        conn = PostgresConnection("localhost", 54320, "postgres", "postgres", "postgres")
+        
