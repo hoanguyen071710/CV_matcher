@@ -1,0 +1,25 @@
+from typing import List
+import pandas as pd
+
+from ....controller.jobScraper.JobScraperController import Config
+from ..JobScraper import JobScraper
+from ....connection.PostgresConnection import PostgresConnection
+from ....model.dao.Utils import Utils
+from ....model.dao.ExtractConfigDAO import ExtractConfigDAO
+
+class TimeBasedScrape(JobScraper):
+    def __init__(self) -> None:
+        pass
+    
+    def scrape(self) -> pd.DataFrame:
+        return super().scrape()
+    
+    def get_config_from_db(self) -> Config:
+        conn = PostgresConnection("localhost", 54320, "postgres", "postgres", "postgres")
+        if not Utils.check_if_table_exists(conn, Config.__table__.name):
+            raise Exception("Config table does not exist")
+
+        configDAO = ExtractConfigDAO(conn)
+        return configDAO.get_all()
+
+    
