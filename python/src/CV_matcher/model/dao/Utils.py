@@ -1,6 +1,7 @@
 from enum import Enum
 from psycopg2 import sql
 from sqlalchemy import inspect
+from sqlalchemy.dialects.postgresql.base import PGInspector
 
 
 # class DatabaseType(Enum):
@@ -16,10 +17,14 @@ from sqlalchemy import inspect
 class Utils:
 
     @staticmethod
-    def check_if_table_exists(conn: any, table_name: str) -> bool:
+    def check_if_table_exists(conn: any, table_name: str, schema: str) -> bool:
         engine = conn.getEngine()
-        insp = inspect(engine)
-        return insp.has_table(table_name)
+        print("Checking if table {}.{} exists".format(schema, table_name))
+        insp = PGInspector(bind=engine)
+        return insp.has_table(
+            table_name=table_name,
+            schema=schema
+        )
 
     @staticmethod
     def create_table(conn: any, table_name: str, model: any):

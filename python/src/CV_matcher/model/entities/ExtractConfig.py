@@ -9,6 +9,7 @@ from .Base import Base
 
 class ExtractConfig(Base):
     __tablename__ = "ExtractConfig"
+    __table_args__ = {"schema": "Config"}
 
     id: Mapped[int] = mapped_column(primary_key=True)
     site_name: Mapped[str] = mapped_column(String(255))
@@ -27,7 +28,7 @@ class ExtractConfig(Base):
     linkedin_company_ids: Mapped[list] = mapped_column(ARRAY(String))
     offset: Mapped[int] = mapped_column(Integer)
     hours_old: Mapped[int] = mapped_column(Integer)
-    enforce_annual_hire: Mapped[bool] = mapped_column(Boolean)
+    enforce_annual_salary: Mapped[bool] = mapped_column(Boolean)
     verbose: Mapped[int] = mapped_column(Integer)
     kwargs: Mapped[dict] = mapped_column(JSONB)
 
