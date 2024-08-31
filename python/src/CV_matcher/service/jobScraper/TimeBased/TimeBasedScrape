@@ -7,12 +7,14 @@ from ....connection.PostgresConnection import PostgresConnection
 from ....model.dao.Utils import Utils
 from ....model.dao.ExtractConfigDAO import ExtractConfigDAO
 
-class TimeBasedScrape(JobScraper):
+class TimeBasedScrape:
     def __init__(self) -> None:
-        pass
+        self.configs = self.get_config_from_db()
     
     def scrape(self) -> pd.DataFrame:
-        return super().scrape()
+        for cfg in self.configs:
+            jobScraper = JobScraper(cfg)
+            jobScraper.scrape()
     
     def get_config_from_db(self) -> Config:
         conn = PostgresConnection("localhost", 54320, "postgres", "postgres", "postgres")

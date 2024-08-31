@@ -29,7 +29,10 @@ class JobScraper:
         print(pd_jobs.head(10))
         listOfModelJobs = self.convert_jobs_to_model(pd_jobs)
         self.write_jobs_to_db(listOfModelJobs)
-
+    
+    def scrape_bulk(self, configs: List[dict]) -> pd.DataFrame:
+        for cfg in configs:
+            self.scrape(cfg)
 
     def convert_jobs_to_model(self, jobs: pd.DataFrame) -> pd.DataFrame:
         listOfJobModels = [Job(**jobAttr) for jobAttr in jobs.to_dict(orient="records")]

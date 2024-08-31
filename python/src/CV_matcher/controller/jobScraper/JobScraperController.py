@@ -5,14 +5,13 @@ import traceback
 
 from ..constants import API
 from ...service.jobScraper.JobScraper import JobScraper
-from ...service.jobScraper.JobConfig.Config import Config
 
 
 router = APIRouter(prefix=API)
 
 
 class Config(BaseModel):
-    site_name: Optional[Union[str, List[str]]] = None
+    site_name: Optional[str] = None
     search_term: Optional[str] = None
     location: Optional[str] = None
     distance: Optional[int] = 50
