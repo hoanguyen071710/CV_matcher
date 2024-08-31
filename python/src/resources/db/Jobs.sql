@@ -1,4 +1,7 @@
-CREATE TABLE jobs (
+CREATE SCHEMA Jobs;
+
+
+CREATE TABLE Jobs.Jobs (
     id SERIAL PRIMARY KEY,
     site VARCHAR(255),
     job_url VARCHAR(255),

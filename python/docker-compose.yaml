@@ -2,7 +2,9 @@ version: "3.8"
 
 services:
   db:
-    image: postgres:latest
+    build:
+      context: .
+      dockerfile: db.Dockerfile
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
@@ -14,19 +16,19 @@ services:
     networks:
       - default
   
-  job-scraper-daily:
-    build: .
-    depends_on:
-      - db
-    volumes:
-      - .:/app
-    ports:
-      - "5000:5000"
-    networks:
-      - default
-networks:
-  default:
-    driver: bridge
+#   job-scraper-daily:
+#     build: .
+#     depends_on:
+#       - db
+#     volumes:
+#       - .:/app
+#     ports:
+#       - "5000:5000"
+#     networks:
+#       - default
+# networks:
+#   default:
+#     driver: bridge
 
 volumes:
   cv_matcher_db:
