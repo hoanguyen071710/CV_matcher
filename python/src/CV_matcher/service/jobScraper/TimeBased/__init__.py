@@ -6,6 +6,8 @@ from ..JobScraper import JobScraper
 from ....connection.PostgresConnection import PostgresConnection
 from ....model.dao.Utils import Utils
 from ....model.dao.ExtractConfigDAO import ExtractConfigDAO
+from ....model.entities.ExtractConfig import ExtractConfig
+
 
 class TimeBasedScrape:
     def __init__(self) -> None:
@@ -13,12 +15,16 @@ class TimeBasedScrape:
     
     def scrape(self) -> pd.DataFrame:
         for cfg in self.configs:
-            jobScraper = JobScraper(cfg)
+            jobScraper = JobScraper(cfg[0])
             jobScraper.scrape()
     
     def get_config_from_db(self) -> Config:
         conn = PostgresConnection("localhost", 54320, "postgres", "postgres", "postgres")
-        if not Utils.check_if_table_exists(conn, Config.__table__.name):
+        if Utils.check_if_table_exists(
+            conn, 
+            ExtractConfig.__tablename__,
+            ExtractConfig.__table_args__["schema"]
+        ) == False:
             raise Exception("Config table does not exist")
 
         configDAO = ExtractConfigDAO(conn)
