@@ -11,7 +11,7 @@ class ExtractConfig(Base):
     __tablename__ = "ExtractConfig"
     __table_args__ = {"schema": "Config"}
 
-    id: Mapped[int] = mapped_column(primary_key=True)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, nullable=True, autoincrement=True)
     site_name: Mapped[str] = mapped_column(String(255))
     search_term: Mapped[str] = mapped_column(String(255))
     location: Mapped[str] = mapped_column(String(255))
@@ -25,7 +25,7 @@ class ExtractConfig(Base):
     proxies: Mapped[str] = mapped_column(String(255))
     description_format: Mapped[str] = mapped_column(String(255))
     linkedin_fetch_description: Mapped[bool] = mapped_column(Boolean)
-    linkedin_company_ids: Mapped[list] = mapped_column(ARRAY(String))
+    linkedin_company_ids: Mapped[list] = mapped_column(ARRAY(Integer))
     offset: Mapped[int] = mapped_column(Integer)
     hours_old: Mapped[int] = mapped_column(Integer)
     enforce_annual_salary: Mapped[bool] = mapped_column(Boolean)

@@ -2,7 +2,7 @@
 CREATE SCHEMA "Config";
 
 CREATE TABLE "Config"."ExtractConfig" (
-    id SERIAL PRIMARY KEY,
+    id TEXT PRIMARY KEY,
     site_name TEXT, -- Using TEXT[] to handle the optional List of strings
     search_term TEXT,
     location TEXT,
@@ -26,6 +26,7 @@ CREATE TABLE "Config"."ExtractConfig" (
 
 
 INSERT INTO "Config"."ExtractConfig" (
+    id,
     site_name,
     search_term,
     location,
@@ -46,24 +47,66 @@ INSERT INTO "Config"."ExtractConfig" (
     "verbose",
     kwargs
 ) VALUES (
-    'example_site_name',
-    'example_search_term',
-    'example_location',
+    'example_hash_1',
+    'linkedin',
+    'Data Engineer',
+    'Vietnam',
     50,
     FALSE,
-    'example_job_type',
+    NULL,
     TRUE,
     15,
     'vietnam',
     FALSE,
-    '{"proxy1", "proxy2"}',
-    'markdown',
+    NULL,
+    NULL,
     FALSE,
-    '{123, 456}',
+    NULL,
     0,
     NULL,
     FALSE,
     2,
-    '{"key1": "value1", "key2": "value2"}'
+    NULL
 );
 
+-- INSERT INTO "Config"."ExtractConfig" (
+--     site_name,
+--     search_term,
+--     location,
+--     distance,
+--     is_remote,
+--     job_type,
+--     easy_apply,
+--     results_wanted,
+--     country_indeed,
+--     hyperlinks,
+--     proxies,
+--     description_format,
+--     linkedin_fetch_description,
+--     linkedin_company_ids,
+--     "offset",
+--     hours_old,
+--     enforce_annual_salary,
+--     "verbose",
+--     kwargs
+-- ) VALUES (
+--     'example_site_name_2',
+--     'example_search_term',
+--     'example_location',
+--     50,
+--     FALSE,
+--     'example_job_type',
+--     TRUE,
+--     15,
+--     'vietnam',
+--     FALSE,
+--     '{"proxy1", "proxy2"}',
+--     'markdown',
+--     FALSE,
+--     '{123, 456}',
+--     0,
+--     NULL,
+--     FALSE,
+--     2,
+--     '{"key1": "value1", "key2": "value2"}'
+-- );
