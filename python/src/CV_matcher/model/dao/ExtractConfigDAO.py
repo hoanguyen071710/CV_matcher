@@ -62,5 +62,5 @@ class ExtractConfigDAO(DAO):
                 session.execute(
                     update(ExtractConfig)
                     .where(ExtractConfig.id == t.id)
-                    .values(t.all_key_values(exclude_primary_key=True))
+                    .values(Utils.deserialize_model(t))
                 )
