@@ -2,7 +2,7 @@ CREATE SCHEMA "Jobs";
 
 
 CREATE TABLE "Jobs"."Jobs" (
-    id SERIAL PRIMARY KEY,
+    id TEXT PRIMARY KEY,
     site VARCHAR(255),
     job_url VARCHAR(255),
     job_url_direct VARCHAR(255),

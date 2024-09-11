@@ -5,7 +5,6 @@ from sqlalchemy import select, delete, insert, update
 from sqlalchemy.dialects import postgresql as pg
 
 from .DAO import DAO
-from ..entities.Job import Job
 from ..entities.ExtractConfig import ExtractConfig
 from ...utils import Utils
 

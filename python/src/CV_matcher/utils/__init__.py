@@ -64,6 +64,6 @@ class Utils:
     
     @staticmethod
     def hash_model_values(model: object) -> str:
-        valListStr = [str(v) for k, v in Utils.deserialize_model(model).items() if k != 'id']
+        valListStr = [str(v).lower() for k, v in Utils.deserialize_model(model).items() if k != 'id']
         valStrEncoded = "_".join(valListStr).encode("utf-8")
-        return hashlib.md5(valStrEncoded).hexdigest()
+        return hashlib.sha256(valStrEncoded).hexdigest()
