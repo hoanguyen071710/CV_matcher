@@ -4,3 +4,4 @@ src/**.egg-info/**
 # **/drivers/chrome-linux64/**
 # **/drivers/chromedriver-linux64/**
 **/api/**
+**/.DS_Store
