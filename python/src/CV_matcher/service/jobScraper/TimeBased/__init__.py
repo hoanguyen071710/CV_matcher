@@ -4,9 +4,10 @@ import pandas as pd
 from ....controller.jobScraper.JobScraperController import Config
 from ..JobScraper import JobScraper
 from ....connection.PostgresConnection import PostgresConnection
-from ....model.dao.Utils import Utils
+# from ....model.dao.Utils import Utils
 from ....model.dao.ExtractConfigDAO import ExtractConfigDAO
 from ....model.entities.ExtractConfig import ExtractConfig
+from ....utils import Utils
 
 
 class TimeBasedScrape:
@@ -15,7 +16,7 @@ class TimeBasedScrape:
     
     def scrape(self) -> pd.DataFrame:
         for cfg in self.configs:
-            jobScraper = JobScraper(cfg[0])
+            jobScraper = JobScraper(Utils.deserialize_model(cfg[0]))
             jobScraper.scrape()
     
     def get_config_from_db(self) -> Config:

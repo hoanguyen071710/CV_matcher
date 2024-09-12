@@ -7,6 +7,7 @@ import httplib2
 from googleapiclient import discovery
 
 from ..model.entities.ExtractConfig import ExtractConfig
+from ..model.entities.Jobs import Jobs
 
 
 class Utils:
@@ -67,3 +68,10 @@ class Utils:
         valListStr = [str(v).lower() for k, v in Utils.deserialize_model(model).items() if k != 'id']
         valStrEncoded = "_".join(valListStr).encode("utf-8")
         return hashlib.sha256(valStrEncoded).hexdigest()
+    
+    @staticmethod
+    def dict_to_model(dict_val: Dict[str, Any], model_name: str) -> ExtractConfig:
+        if model_name == "ExtractConfig":
+            return ExtractConfig(**dict_val)
+        if model_name == "Jobs":
+            return Jobs(**dict_val)

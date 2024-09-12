@@ -4,6 +4,7 @@ from sqlalchemy import String, Boolean, Integer, ARRAY
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
+from dataclasses import dataclass
 
 from .Base import Base
 

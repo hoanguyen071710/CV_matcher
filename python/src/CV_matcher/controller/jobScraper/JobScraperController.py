@@ -5,6 +5,9 @@ import traceback
 
 from ..constants import API
 from ...service.jobScraper.JobScraper import JobScraper
+from ...model.dao.ExtractConfigDAO import ExtractConfigDAO
+from ...utils import Utils
+from ...service.configService import ConfigService
 
 
 router = APIRouter(prefix=API)
@@ -32,12 +35,22 @@ class Config(BaseModel):
     kwargs: Optional[dict[str, Any]] = None
 
 
-@router.post("/job_scraper")
+@router.post("/job_scraper/scrape")
 async def jobScraper(config: Config):
     try:
         scraper = JobScraper(config.model_dump())
         scraper.scrape()
         return {"status": "200"}
+    except Exception as e:
+        print(traceback.format_exc())
+        return {"status": "500", "message": str(e)}
+
+@router.post("/job_scraper/config/create")
+async def createConfig(config: Config):
+    try:
+        configService = ConfigService(config.model_dump())
+        configService.insert_config()
+        return {"status": "200", "message": "Config created"}
     except Exception as e:
         print(traceback.format_exc())
         return {"status": "500", "message": str(e)}
