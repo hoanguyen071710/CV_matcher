@@ -3,5 +3,7 @@ src/**.egg-info/**
 **/drivers/**
 # **/drivers/chrome-linux64/**
 # **/drivers/chromedriver-linux64/**
+**/src/resources/service-account-key.json
+**/example/notebooks/**
 **/api/**
 **/.DS_Store
