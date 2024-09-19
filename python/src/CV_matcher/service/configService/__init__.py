@@ -1,6 +1,6 @@
 from enum import Enum
 
-from ...connection.PostgresConnection import PostgresConnection
+from ...db.PostgresConnection import PostgresConnection
 from ...model.dao.ExtractConfigDAO import ExtractConfigDAO
 from ...utils import Utils
 
