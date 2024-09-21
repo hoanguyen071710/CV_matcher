@@ -6,4 +6,5 @@ src/**.egg-info/**
 **/src/resources/service-account-key.json
 **/example/notebooks/**
 **/api/**
+**/docs/**.bkp
 **/.DS_Store
