@@ -1,0 +1,34 @@
+name: Run tests on PR
+on: 
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+      - test/ci
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup Python
+        uses: mamba-org/setup-micromamba@v1
+        with:
+          micromamba-version: '1.5.0-0'
+          generate-run-shell: true
+          cache-environment: false
+          download-micromamba: true
+          post-cleanup: 'all'
+          environment-name: dev
+          micromamba-binary-path: ${{ runner.temp }}/bin/micromamba
+          create-args: >-
+            python=3.10
+      - name: Unit test
+        run: |
+          pip install -r requirements.txt &&\
+          pip install -e ./python/ &&\
+          pytest python/tests/*.py
+        shell: micromamba-shell {0}
