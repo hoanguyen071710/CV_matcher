@@ -31,6 +31,7 @@ jobs:
             pandas=2.2.2
             polars=1.1.0
             pydantic=2.8.2
+            requests=2.32.3
       - name: Unit test
         run: |
           pip install -e ./python/ &&\
