@@ -7,6 +7,7 @@ on:
     branches:
       - main
       - test/ci
+      - feat/GoogleDriveConnector
 jobs:
   ci:
     runs-on: ubuntu-latest
