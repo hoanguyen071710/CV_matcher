@@ -26,15 +26,9 @@ jobs:
           micromamba-binary-path: ${{ runner.temp }}/bin/micromamba
           create-args: >-
             python=3.10
-            pytest=8.3.2
-            sqlalchemy=2.0
-            pandas=2.2.2
-            polars=1.1.0
-            pydantic=2.8.2
-            requests=2.32.3
-            tls-client=1.0.1
       - name: Unit test
         run: |
+          pip install -r requirements2.txt &&\
           pip install -e ./python/ &&\
           pytest python/tests/*.py
         shell: micromamba-shell {0}
