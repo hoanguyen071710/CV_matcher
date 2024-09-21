@@ -30,6 +30,7 @@ jobs:
             sqlalchemy=2.0
             pandas=2.2.2
             polars=1.1.0
+            pydantic=2.8.2
       - name: Unit test
         run: |
           pip install -e ./python/ &&\
