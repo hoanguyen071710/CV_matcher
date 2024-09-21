@@ -6,7 +6,7 @@ from typing import List
 from datetime import datetime
 
 from .jobspy import scrape_jobs
-from ...connection.PostgresConnection import PostgresConnection
+from ...db.PostgresConnection import PostgresConnection
 from ...model.entities.Jobs import Jobs
 from ...model.dao.JobsDAO import JobsDAO
 from ...utils import Utils
