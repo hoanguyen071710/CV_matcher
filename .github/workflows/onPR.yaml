@@ -26,7 +26,8 @@ jobs:
           micromamba-binary-path: ${{ runner.temp }}/bin/micromamba
           create-args: >-
             python=3.10
-            pytest==8.3.2
+            pytest=8.3.2
+            sqlalchemy=2.0
       - name: Unit test
         run: |
           pip install -e ./python/ &&\
