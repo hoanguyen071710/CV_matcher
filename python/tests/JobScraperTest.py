@@ -72,3 +72,16 @@ def test_write_db(mock_Utils, mock_JobsDAO, mock_PostgresConnection):
     mock_Utils.create_table.assert_called_once_with(mock_conn, Jobs.__table__.name, Jobs)
     mock_jobs_dao.insert.assert_called_once_with(mock_jobs)
 
+
+# Test case for 'convert_jobs_to_model' method
+def test_convert_jobs_to_model():
+    # Arrange
+    scraper = JobScraper(config=mock_config)
+    mock_jobs = [MagicMock(spec=Jobs), MagicMock(spec=Jobs)]
+
+    # Act
+    result = scraper.convert_jobs_to_model(mock_job_data)
+
+    # Assert
+    assert isinstance(result, list)
+    assert len(result) == 2
