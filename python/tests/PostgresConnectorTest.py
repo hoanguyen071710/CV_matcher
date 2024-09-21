@@ -5,8 +5,7 @@ from CV_matcher.db.PostgresConnection import PostgresConnection
 
 
 # Patch the create_engine method in the sqlalchemy module to prevent actual DB connection
-# @patch("CV_matcher.db.PostgresConnection.create_engine")
-@patch("sqlalchemy.engine.create_engine")
+@patch("CV_matcher.db.PostgresConnection.create_engine")
 def test_postgres_connection(mock_create_engine):
     # Arrange
     host = "localhost"
