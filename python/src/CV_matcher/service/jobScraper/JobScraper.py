@@ -6,7 +6,7 @@ from typing import List
 from datetime import datetime
 
 from .jobspy import scrape_jobs
-from ...connection.PostgresConnection import PostgresConnection
+from ...db.PostgresConnection import PostgresConnection
 from ...model.entities.Jobs import Jobs
 from ...model.dao.JobsDAO import JobsDAO
 from ...utils import Utils
@@ -21,6 +21,7 @@ class JobScraperSite(Enum):
 class JobScraper:
     def __init__(self, config: dict) -> None:
         self.config = config
+        self.timeNow = datetime.now().strftime("%Y%m%d-%H%M%S")
         
 
     def scrape(self) -> None:
@@ -29,7 +30,8 @@ class JobScraper:
         )
         pd_jobs = self.generate_id_df(pd_jobs)
         listOfModelJobs = self.convert_jobs_to_model(pd_jobs)
-        # self.write_jobs_to_local(pd_jobs, self.config["search_term"], None)
+        backupFileName = f"jobs-{self.timeNow}-{self.config['search_term']}.csv"
+        # self.write_jobs_to_local(pd_jobs, backupFileName)
         self.write_jobs_to_db(listOfModelJobs)
         return listOfModelJobs
     
@@ -49,12 +51,11 @@ class JobScraper:
         jobDAO = JobsDAO(conn)
         jobDAO.insert(jobs)
     
-    def write_jobs_to_local(self, jobs: pd.DataFrame, search_term: str, backup_path: str) -> None:
+    def write_jobs_to_local(self, jobs: pd.DataFrame, backup_file_name: str) -> None:
         if backup_path is None or backup_path == "":
             backup_path = "../../../resources/backupJobScraped"
         currPath = os.path.dirname(os.path.abspath(__file__))
-        timeNow = datetime.now().strftime("%Y%m%d-%H%M%S")
-        fileName = f"jobs-{timeNow}-{search_term}.csv"
+        fileName = backup_file_name
         jobs.to_csv(
             os.path.join(currPath, backup_path, fileName),
         )
@@ -64,5 +65,27 @@ class JobScraper:
         return jobs
 
 
-    # def write_jobs_to_google_drive(self, jobs: pd.DataFrame, search_term: str, backup_path: str) -> None:
-    #     service = Utils.get_service('drive', 'v3', SCOPES, SERVICE_ACCOUNT_KEY_FILE)
+    def write_jobs_to_google_drive(
+            self, 
+            api_name: str, 
+            api_version: str, 
+            scopes: List[str], 
+            service_account_key_file: str, 
+            backup_file_name: str
+        ) -> None:
+        service = Utils.get_service(
+            api_name, 
+            api_version,
+            scopes,
+            service_account_key_file
+        )
+
+        currDate = datetime.now().strftime("%Y-%m-%d")
+        
+        # Write csv to folder after create
+        fileMetadata = {
+            "name" : backup_file_name,
+            "parents": [parentFolder["files"][0]["id"]],
+        }
+
+        service.files().create(body=fileMetadata, supportsAllDrives=True, fields="*").execute()
