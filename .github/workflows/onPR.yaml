@@ -29,6 +29,6 @@ jobs:
             pytest==8.3.2
       - name: Unit test
         run: |
-          pip install -e . &&\
+          pip install -e ./python/ &&\
           pytest python/tests/*.py
         shell: micromamba-shell {0}
