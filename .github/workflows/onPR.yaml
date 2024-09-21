@@ -28,6 +28,7 @@ jobs:
             python=3.10
             pytest=8.3.2
             sqlalchemy=2.0
+            pandas=2.2.2
       - name: Unit test
         run: |
           pip install -e ./python/ &&\
