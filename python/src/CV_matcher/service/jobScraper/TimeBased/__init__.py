@@ -21,7 +21,7 @@ class TimeBasedScrape:
             jobScraper = JobScraper(des_cfg)
             jobScraper.scrape()
     
-    def get_config_from_db(self) -> Config:
+    def get_config_from_db(self) -> List[ExtractConfig]:
         conn = PostgresConnection("localhost", 54320, "postgres", "postgres", "postgres")
         if Utils.check_if_table_exists(
             conn, 
