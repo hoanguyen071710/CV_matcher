@@ -17,11 +17,11 @@ class TimeBasedScrape:
     def scrape(self) -> pd.DataFrame:
         for cfg in self.configs:
             des_cfg = Utils.deserialize_model(cfg[0])
-            print("Scraping with config " + des_cfg)
+            # print("Scraping with config " + des_cfg)
             jobScraper = JobScraper(des_cfg)
             jobScraper.scrape()
     
-    def get_config_from_db(self) -> Config:
+    def get_config_from_db(self) -> List[ExtractConfig]:
         conn = PostgresConnection("localhost", 54320, "postgres", "postgres", "postgres")
         if Utils.check_if_table_exists(
             conn, 

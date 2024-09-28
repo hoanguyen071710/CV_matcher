@@ -2,7 +2,9 @@ import pytest
 import pandas as pd
 from unittest.mock import patch, MagicMock
 from CV_matcher.service.jobScraper.JobScraper import JobScraper
+from CV_matcher.service.jobScraper.TimeBased import TimeBasedScrape
 from CV_matcher.model.entities.Jobs import Jobs
+from CV_matcher.model.entities.ExtractConfig import ExtractConfig
 from CV_matcher.db.PostgresConnection import PostgresConnection
 
 # Mock data for testing
@@ -19,6 +21,28 @@ mock_config = {
     "search_term": "Software Engineer",
     "location": "New York"
 }
+
+mock_extract_config = {
+    "site_name": "linkedin",
+    "search_term": "Software Engineer",
+    "location": "New York",
+    "distance": 50,
+    "is_remote": False
+}
+
+mock_extract_config_2 = {
+    "site_name": "linkedin",
+    "search_term": "Software Engineer",
+    "location": "New York",
+    "distance": 50,
+    "is_remote": False
+}
+
+# Mock data for the test
+mock_config_data = [
+    (ExtractConfig(**mock_extract_config),),
+    (ExtractConfig(**mock_extract_config_2),)
+]
 
 
 # Test case for the 'scrape' method
@@ -85,3 +109,50 @@ def test_convert_jobs_to_model():
     # Assert
     assert isinstance(result, list)
     assert len(result) == 2
+
+# Test for the 'get_config_from_db' method
+@patch("CV_matcher.service.jobScraper.TimeBased.Utils.check_if_table_exists")
+@patch("CV_matcher.service.jobScraper.TimeBased.PostgresConnection")
+@patch("CV_matcher.service.jobScraper.TimeBased.ExtractConfigDAO")
+def test_get_config_from_db(mock_config_dao, mock_postgres_connection, mock_check_if_table_exists):
+    # Arrange
+    time_scraper = TimeBasedScrape()
+    
+    # Mocking the return value of check_if_table_exists
+    mock_check_if_table_exists.return_value = True
+    
+    # Mocking the DAO to return mock config data
+    mock_config_dao_instance = mock_config_dao.return_value
+    mock_config_dao_instance.get_all.return_value = mock_config_data
+
+    # Act
+    result = time_scraper.get_config_from_db()
+
+    # Assert
+    # One called when calling get_config_from_db() when instance is created
+    # One called when calling get_config_from_db() when checking results above
+    assert mock_postgres_connection.call_count == 2
+    assert mock_check_if_table_exists.call_count == 2
+    assert mock_config_dao_instance.get_all.call_count == 2
+    assert result == mock_config_data
+
+
+@patch("CV_matcher.service.jobScraper.TimeBased.JobScraper")
+@patch.object(TimeBasedScrape, "get_config_from_db", return_value=mock_config_data)
+@patch("CV_matcher.service.jobScraper.TimeBased.Utils")
+def test_scrape(mock_deserialize_model, mock_config_dao, mock_job_scraper):
+    # Arrange
+    tc = TimeBasedScrape()
+
+    # Mocking the return value of deserialize_model
+    mock_deserialize_model.deserialize_model.side_effect = [mock_extract_config, mock_extract_config_2]
+
+    # Act
+    tc.scrape()
+
+    # Assert
+    mock_deserialize_model.deserialize_model.assert_any_call(mock_config_data[0][0])
+    mock_deserialize_model.deserialize_model.assert_any_call(mock_config_data[1][0])
+    mock_job_scraper.assert_called_with(mock_extract_config)
+    mock_job_scraper.assert_called_with(mock_extract_config_2)
+    mock_config_dao.assert_called_once()
